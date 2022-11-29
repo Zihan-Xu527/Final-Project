@@ -11,5 +11,5 @@
 double average(std::vector<double> const & vec);
 double variance(std::vector<double> const & vec);
 double covariance(std::vector<double> const & vec1, std::vector<double> const & vec2);
-
+double getb(std::vector<double> const & vec1, std::vector<double> const & vec2);
 #endif //FINAL_PROJECT_STATISTIC_TOOL_H

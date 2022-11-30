@@ -15,7 +15,7 @@ void check_reduction(double interest_rate, double sigma, double S_init, double m
     double expected_spot = S_init * exp_factor; //S(0)*exp(rT)
 
 
-    std::vector<int> nn = {40, 200, 1000, 5000};
+    std::vector<int> nn = {10, 100, 1000, 10000};
     std::vector<double> Yb_average(nn.size());
 
 

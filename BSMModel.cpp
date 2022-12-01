@@ -3,9 +3,7 @@
 //
 
 #include "BSMModel.h"
-BSMModel::BSMModel(){
 
-}
 std::vector<double> BSMModel::sim_path(double maturity, double S_init, unsigned length_out)
 {
     std::vector<double> path(length_out);

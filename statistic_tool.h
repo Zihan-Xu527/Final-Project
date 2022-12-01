@@ -10,8 +10,11 @@
 
 double average(std::vector<double> const & vec);
 double variance(std::vector<double> const & vec);
-double covariance(std::vector<double> const & vec1, std::vector<double> const & vec2);
-double getb(std::vector<double> const & vec1, std::vector<double> const & vec2);
-std::vector<double> confidenceInterval(double mean, double sd, int n);
-double prob_interval(std::vector<double> const & interval, std::vector<double> const & samples);
+double std_deviation(std::vector<double> const & vec);
+double std_error(std::vector<double> const & vec);
+std::vector<double> confidenceInterval(std::vector<double> const & vec);
+double getb(std::vector<double> const & spot, std::vector<double> const & payoff);
+std::vector<double> getYb(std::vector<double> const & spot, std::vector<double> const & payoff, double expected_spot);
+double normalCDF(double x);
+double expected_Payoff(double t, double spot_price, double interest_rate, double volatility, double strike, double maturity);
 #endif //FINAL_PROJECT_STATISTIC_TOOL_H

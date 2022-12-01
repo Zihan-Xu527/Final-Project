@@ -16,7 +16,7 @@ private:
     double interest_rate;  // interest rate
     double sigma;  // volatility coefficient
 public:
-    BSMModel();
+
     BSMModel(double r, double sigma) : interest_rate(r), sigma(sigma), rng(rd()), normal(0.0, 1.0) { }
     void set_parameter(double mu_new, double sigma_new) { interest_rate = mu_new; sigma = sigma_new; }
     void set_seed(unsigned seed_new) { rng.seed(seed_new); }

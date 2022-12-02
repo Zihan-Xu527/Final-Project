@@ -11,14 +11,15 @@
 #include "math.h"
 
 double average(std::vector<double> const & vec){
-//    return std::accumulate(vec.begin(), vec.end(), 0.0)/(vec.size());
-    int n = vec.size();
-    double sum = 0.;
-    for (int i = 0; i < n; i++){
-        sum += vec[i];
-    }
-
-    return sum/n;
+    return std::accumulate(vec.begin(), vec.end(), 0.0)/(vec.size());
+//    int n = vec.size();
+//    double sum = 0.;
+//#pragma omp parallel for
+//    for (int i = 0; i < n; i++){
+//        sum += vec[i];
+//    }
+//
+//    return sum/n;
 
 }
 
@@ -43,7 +44,7 @@ double std_error(std::vector<double> const & vec){
 
 
 
-double getb(std::vector<double> const & spot, std::vector<double> const & payoff){
+double get_b(std::vector<double> const & spot, std::vector<double> const & payoff){
     if ( int(spot.size()) != int(payoff.size()) )
         throw std::invalid_argument("ERROR: Dimension doesn't match!");
 
@@ -60,7 +61,7 @@ double getb(std::vector<double> const & spot, std::vector<double> const & payoff
 }
 
 std::vector<double> getYb(std::vector<double> const & spot, std::vector<double> const & payoff, double expected_spot){
-    double b = getb(spot, payoff);
+    double b = get_b(spot, payoff);
     int n = spot.size();
     std::vector<double> Yb(n);
     for(int i = 0; i < n; i++){
@@ -92,8 +93,6 @@ std::vector<double> confidenceInterval(std::vector<double> const & vec){
     return result;
 }
 
-
-
 double normalCDF(double x)
 {
     return std::erfc(-x / std::sqrt(2)) / 2;
@@ -101,7 +100,6 @@ double normalCDF(double x)
 
 double expected_Payoff(double t, double spot_price, double interest_rate, double volatility, double strike, double maturity)
 {
-
     double d1 = (std::log(spot_price / strike) + (interest_rate + pow(volatility, 2) / 2) * (maturity - t)) / (volatility * std::sqrt(maturity - t));
     double d2 = d1 - volatility * std::sqrt(maturity - t);
     return normalCDF(d1) * spot_price * std::exp(interest_rate * maturity) - normalCDF(d2) * strike;

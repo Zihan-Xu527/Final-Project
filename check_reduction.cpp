@@ -31,10 +31,10 @@ void check_reduction(double interest_rate, double sigma, double S_init, double m
             std::vector<double> Yb(nn[n]);
             std::vector<double> spot_maturity(nn[n]);
             std::vector<double> discounted_payoff(nn[n]);
-//#pragma omp parallel for
+
             for (int k=0; k<nn[n]; k++){
                 spot_maturity[k] = (my_model.sim_path(maturity, S_init, 2))[1];  // only terminal price is needed
-                discounted_payoff[k] = call(spot_maturity[k]) / exp_factor;
+                discounted_payoff[k] = call(spot_maturity[k]) ;
             }
             Yb = getYb(spot_maturity, discounted_payoff, expected_spot);
             Yb_bar[i] = average(Yb);

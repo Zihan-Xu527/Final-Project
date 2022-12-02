@@ -56,14 +56,14 @@ int main() {
 #pragma omp parallel for
         for(int j = 0; j < m; j++) {
             std::vector<double> spot_maturity(n);
-            std::vector<double> payoff(n);
+            std::vector<double> discounted_payoff(n);
 
             for (int k = 0 ; k < n ; k++){
                 spot_maturity[k] = (my_model.sim_path(maturity, S_init, 2))[1];  // only terminal price is needed
-                payoff[k] = call(spot_maturity[k]);
+                discounted_payoff[k] = call(spot_maturity[k]) / exp_factor;
             }
 
-            std::vector<double> Yb = getYb(spot_maturity, payoff, expected_spot);
+            std::vector<double> Yb = getYb(spot_maturity, discounted_payoff, expected_spot);
 
             std::vector<double> interval = confidenceInterval(Yb);
             if( interval[0] < EY && EY < interval[1])

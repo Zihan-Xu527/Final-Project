@@ -102,5 +102,5 @@ double expected_Payoff(double t, double spot_price, double interest_rate, double
 {
     double d1 = (std::log(spot_price / strike) + (interest_rate + pow(volatility, 2) / 2) * (maturity - t)) / (volatility * std::sqrt(maturity - t));
     double d2 = d1 - volatility * std::sqrt(maturity - t);
-    return normalCDF(d1) * spot_price * std::exp(interest_rate * maturity) - normalCDF(d2) * strike;
+    return normalCDF(d1) * spot_price  - normalCDF(d2) * strike / std::exp(interest_rate * maturity);
 }

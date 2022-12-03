@@ -17,7 +17,7 @@ int main() {
 
 
     double r = 0.05, sigma = 0.3;
-    double S_0 = 50.0, T = 0.25, K = 55.;
+    double S_0 = 50.0, T = 0.25, K = 65.;
 
     check_reduction(r, sigma, S_0, T, K);
     auto middleTime = std::chrono::high_resolution_clock::now();

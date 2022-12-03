@@ -20,6 +20,7 @@ int main() {
     double S_0 = 50.0, T = 0.25, K = 55.;
 
     check_reduction(r, sigma, S_0, T, K);
+    auto middleTime = std::chrono::high_resolution_clock::now();
     check_asymptotic_result(r, sigma, S_0, T, K);
 
     //check reduction of variance
@@ -43,10 +44,13 @@ int main() {
 
 
     auto endTime = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> fp_ms = endTime - startTime;
+    std::chrono::duration<double, std::milli> fp_ms1 = middleTime - startTime;
+    std::chrono::duration<double, std::milli> fp_ms2 = endTime - middleTime;
 
 
-    std::cout << fp_ms.count() << std::endl;
+    std::cout << "Part I: "<< fp_ms1.count() << std::endl;
+    std::cout << "Part II: "<< fp_ms2.count() << std::endl;
+    std::cout << "Total time: "<< fp_ms1.count() + fp_ms2.count() << std::endl;
 
     return 0;
 }

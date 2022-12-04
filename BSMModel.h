@@ -21,7 +21,7 @@ private:
 
 
 public:
-    BSMModel(){}
+//    BSMModel(){}
     BSMModel(double r, double sigma, int n) : interest_rate(r), sigma(sigma), batch_size(n), rng(rd()), normal(0.0, 1.0) { };
     void set_parameter(double mu_new, double sigma_new) { interest_rate = mu_new; sigma = sigma_new; };
     void set_seed(unsigned seed_new) { rng.seed(seed_new); };

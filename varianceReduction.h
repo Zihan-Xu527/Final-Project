@@ -29,6 +29,7 @@ private:
 public:
     varianceReduction();
     varianceReduction(double r, double volatility, double s_init, double maturity, double strike);
+    varianceReduction(double r, double volatility, double s_init, double maturity, double strike, int newN);
     void simulate();
     void set_data();
     double getb();

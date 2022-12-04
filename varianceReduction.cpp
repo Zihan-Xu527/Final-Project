@@ -17,12 +17,18 @@ varianceReduction::varianceReduction(){
 }
 
 varianceReduction::varianceReduction(double r, double volatility, double s_init, double maturity, double strike){
+
+
+
+}
+
+varianceReduction::varianceReduction(double r, double volatility, double s_init, double maturity, double strike, int batch_size){
     interest_rate = r;
     sigma = volatility;
     S_init = s_init;
     T = maturity;
     K = strike;
-    n = 1000; //default sample size = 1000
+    n = batch_size; //default batch size = 1000
     b = 0.;
     spot_maturity.assign(n, 0.);
     discounted_payoff.assign(n, 0.);
@@ -37,8 +43,8 @@ void varianceReduction::simulate(){
 
 // get terminal spot prices and discounted payoffs from n simulated trajectories
 void varianceReduction::set_data(){
-    spot_maturity.resize(n);
-    discounted_payoff.resize(n);
+//    spot_maturity.resize(n);
+//    discounted_payoff.resize(n);
     Call my_call(K);
 //#pragma omp parallel for
     for (int i = 0; i < n ; i++){
@@ -63,13 +69,12 @@ void varianceReduction::init(){
     simulate();
     set_data();
     b = getb();
-    sol.resize(n);
+//    sol.resize(n);
 }
 
 // get solution Y(b) = Y - b * (S(T) - E[S(T)])
 void varianceReduction::exec(){
-
-//#pragma omp parallel for
+#pragma omp parallel for
     for(int i = 0; i < n; i++){
         sol[i] = discounted_payoff[i] - b * (spot_maturity[i] - std::exp(interest_rate * T) * S_init);
     }

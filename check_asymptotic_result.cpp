@@ -9,7 +9,7 @@
 #include "statistic_tool.h"
 #include "BSMModel.h"
 #include "Payoff.h"
-#include "varianceReduction.h"
+#include "controlVariates.h"
 
 void check_asymptotic_result(double r, double sigma, double S_0, double T, double K){
 
@@ -30,7 +30,7 @@ void check_asymptotic_result(double r, double sigma, double S_0, double T, doubl
             std::vector<double> spot_maturity(n);
             std::vector<double> discounted_payoff(n);
 
-            varianceReduction VR(r, sigma, S_0, T, K,nn[i]);
+            controlVariates VR(r, sigma, S_0, T, K, nn[i]);
 
             VR.init();
             VR.exec();

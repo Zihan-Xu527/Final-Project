@@ -2,8 +2,8 @@
 // Created by Zihan Xu on 12/3/22.
 //
 
-#ifndef FINAL_PROJECT_VARIANCEREDUCTION_H
-#define FINAL_PROJECT_VARIANCEREDUCTION_H
+#ifndef FINAL_PROJECT_CONTROLVARIATES_H
+#define FINAL_PROJECT_CONTROLVARIATES_H
 #include "statistic_tool.h"
 #include "BSMModel.h"
 #include "Payoff.h"
@@ -13,7 +13,7 @@
 #include <cmath>
 #include "omp.h"
 
-class varianceReduction {
+class controlVariates {
 private:
     double interest_rate; // interest rate: r
     double sigma; // volatility coefficient: \sigma
@@ -27,12 +27,12 @@ private:
     std::vector<double> discounted_payoff; // e^{-rT}*Y(T)
     std::vector<double> sol; // Y(b)
 public:
-    varianceReduction();
-    varianceReduction(double r, double volatility, double s_init, double maturity, double strike);
-    varianceReduction(double r, double volatility, double s_init, double maturity, double strike, int newN);
+    controlVariates();
+    controlVariates(double r, double volatility, double s_init, double maturity, double strike);
+    controlVariates(double r, double volatility, double s_init, double maturity, double strike, int newN);
     void simulate();
     void set_data();
-    double getb();
+    void set_b();
     void exec();
     void set_n(int newN){ n = newN; };
     void set_r(double newr){ interest_rate = newr; };
@@ -45,4 +45,4 @@ public:
 };
 
 
-#endif //FINAL_PROJECT_VARIANCEREDUCTION_H
+#endif //FINAL_PROJECT_CONTROLVARIATES_H

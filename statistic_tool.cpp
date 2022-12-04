@@ -43,34 +43,6 @@ double std_error(std::vector<double> const & vec){
 }
 
 
-
-double get_b(std::vector<double> const & spot, std::vector<double> const & payoff){
-    if ( int(spot.size()) != int(payoff.size()) )
-        throw std::invalid_argument("ERROR: Dimension doesn't match!");
-
-    int n = spot.size();
-    double mean_spot = average(spot);
-    double mean_payoff = average(payoff);
-    double numerator = 0., denominator = 0.;
-//#pragma omp parallel for
-    for (int i = 0; i < n; i++){
-        numerator += (spot[i] - mean_spot) * (payoff[i] - mean_payoff);
-        denominator += pow(spot[i] - mean_spot, 2);
-    }
-    return numerator / denominator;
-}
-
-std::vector<double> getYb(std::vector<double> const & spot, std::vector<double> const & payoff, double expected_spot){
-    double b = get_b(spot, payoff);
-    int n = spot.size();
-    std::vector<double> Yb(n);
-    for(int i = 0; i < n; i++){
-        Yb[i] = payoff[i] - b * (spot[i] - expected_spot);
-    }
-    return Yb;
-}
-
-
 std::vector<double> confidenceInterval(std::vector<double> const & vec){
     std::vector<double> result(2);
     double mean = average(vec);

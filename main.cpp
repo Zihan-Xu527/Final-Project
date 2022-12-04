@@ -7,7 +7,7 @@
 #include "BSMModel.h"
 #include "Payoff.h"
 #include <chrono>
-#include "varianceReduction.h"
+#include "controlVariates.h"
 
 
 int main() {
@@ -16,24 +16,26 @@ int main() {
     double r = 0.05, sigma = 0.3;
     double S_0 = 50.0, T = 0.25, K = 55.;
 
-
-
     auto startTime = std::chrono::high_resolution_clock::now();
-
 
     check_reduction(r, sigma, S_0, T, K);
 
+    auto middleTime = std::chrono::high_resolution_clock::now();
+
+    check_asymptotic_result(r, sigma, S_0, T, K);
+
+    auto endTime = std::chrono::high_resolution_clock::now();
 
 
+    std::chrono::duration<double, std::milli> fp_ms1 = middleTime - startTime;
+    std::chrono::duration<double, std::milli> fp_ms2 = endTime - middleTime;
 
 
+    std::cout << "Elapsed time in test 1: "<< fp_ms1.count()/1000 << "s." << std::endl;
+    std::cout << "Elapsed time in test 2: "<< fp_ms2.count()/1000 << "s." << std::endl;
+    std::cout << "Total time: "<< fp_ms1.count() + fp_ms2.count() << std::endl;
 
-
-
-
-
-
-//    //check reduction of variance
+    //    //check reduction of variance
 //    std::vector<double> KK = {40., 45., 50., 55., 60., 65., 70.};
 //
 //
@@ -56,29 +58,6 @@ int main() {
 //        std::cout<<"rho^2 is "<< 1 - var_Yb/var_Y << std::endl;
 //
 //    }
-
-
-
-
-
-
-
-
-
-    auto middleTime = std::chrono::high_resolution_clock::now();
-
-    check_asymptotic_result(r, sigma, S_0, T, K);
-
-    auto endTime = std::chrono::high_resolution_clock::now();
-
-
-    std::chrono::duration<double, std::milli> fp_ms1 = middleTime - startTime;
-    std::chrono::duration<double, std::milli> fp_ms2 = endTime - middleTime;
-
-
-    std::cout << "Test I: "<< fp_ms1.count() << std::endl;
-    std::cout << "Test II: "<< fp_ms2.count() << std::endl;
-    std::cout << "Total time: "<< fp_ms1.count() + fp_ms2.count() << std::endl;
 
     return 0;
 }

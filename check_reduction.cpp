@@ -9,7 +9,7 @@
 #include "statistic_tool.h"
 #include "BSMModel.h"
 #include "Payoff.h"
-#include "varianceReduction.h"
+#include "controlVariates.h"
 
 
 
@@ -25,7 +25,7 @@ void check_reduction(double r, double sigma, double S_0, double T, double K){
         std::cout << "n = " << nn[i] <<", ";
 #pragma omp parallel for
         for(int j = 0; j < m; j++) {
-            varianceReduction VR(r, sigma, S_0, T, K,nn[i]);
+            controlVariates VR(r, sigma, S_0, T, K, nn[i]);
 
             VR.init();
             VR.exec();

@@ -7,6 +7,7 @@
 #include <random>
 #include <vector>
 #include <cmath>
+#include "Payoff.h"
 
 class BSMModel {
 private:
@@ -15,14 +16,18 @@ private:
     std::normal_distribution<double> normal;
     double interest_rate;  // interest rate
     double sigma;  // volatility coefficient
-public:
+    int batch_size;
+    double strike;
 
-    BSMModel(double r, double sigma) : interest_rate(r), sigma(sigma), rng(rd()), normal(0.0, 1.0) { }
-    void set_parameter(double mu_new, double sigma_new) { interest_rate = mu_new; sigma = sigma_new; }
-    void set_seed(unsigned seed_new) { rng.seed(seed_new); }
-    std::vector<double> sim_path(double maturity, double S_init, unsigned length_out);
-    double get_interest(){return interest_rate;};
-    double get_sigma(){return sigma;};
+
+public:
+    BSMModel(){}
+    BSMModel(double r, double sigma, int n) : interest_rate(r), sigma(sigma), batch_size(n), rng(rd()), normal(0.0, 1.0) { };
+    void set_parameter(double mu_new, double sigma_new) { interest_rate = mu_new; sigma = sigma_new; };
+    void set_seed(unsigned seed_new) { rng.seed(seed_new); };
+    std::vector<std::vector<double>> sim_path(double maturity, double S_init, double strike, unsigned length_out);
+
+
 };
 
 

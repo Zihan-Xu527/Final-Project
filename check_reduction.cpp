@@ -9,41 +9,40 @@
 #include "statistic_tool.h"
 #include "BSMModel.h"
 #include "Payoff.h"
-void check_reduction(double interest_rate, double sigma, double S_init, double maturity, double strike){
-    BSMModel my_model(interest_rate, sigma);
-    Call my_call(strike);
-    double exp_factor = std::exp(interest_rate * maturity);
-    double expected_spot = S_init * exp_factor; //S(0)*exp(rT)
+#include "varianceReduction.h"
 
+void exec(varianceReduction &VR, int m, std::vector<double> &Y_bar, std::vector<double> &Yb_bar);
 
+void check_reduction(double r, double sigma, double S_0, double T, double K){
+    varianceReduction VR(r, sigma, S_0, T, K);
     std::vector<int> nn = {10, 100, 1000, 10000};
-//    std::vector<double> Yb_average(nn.size());
-
+//    omp_set_num_threads(20);
 
     for (int i = 0; i < nn.size(); i++){
         std::cout << "n = " << nn[i] <<", ";
+        VR.set_n(nn[i]);
 
         int m = 10000;
         std::vector<double> Y_bar(m);
         std::vector<double> Yb_bar(m);
-#pragma omp parallel for
-        for(int j = 0; j < m; j++) {
 
-            std::vector<double> Yb(nn[i]);
-            std::vector<double> spot_maturity(nn[i]);
-            std::vector<double> discounted_payoff(nn[i]);
+//#pragma omp parallel for
+        exec(VR, m, Y_bar, Yb_bar);
+//        double var_Y = variance(Y_bar), var_Yb = variance(Yb_bar);
+//        double rho_squared = 1-var_Yb/var_Y;
+//        std::cout << "variance of Y is " << var_Y << ", ";
+//        std::cout <<"variance of Y(b) is "<< var_Yb << ", ";
+//        std::cout <<"rho^2 is " << rho_squared << std::endl;
 
-            for (int k=0; k<nn[i]; k++){
-                spot_maturity[k] = (my_model.sim_path(maturity, S_init, 2))[1];  // only terminal price is needed
-                discounted_payoff[k] = my_call(spot_maturity[k]) / exp_factor ;
-            }
-            Yb = getYb(spot_maturity, discounted_payoff, expected_spot);
-            Yb_bar[j] = average(Yb);
-            Y_bar[j] = average(discounted_payoff);
-        }
-        std::cout<<"variance of Y is "<<variance(Y_bar) <<", ";
-        std::cout<<"variance of Y(b) is "<<variance(Yb_bar) <<", ";
-        std::cout<<"rho^2 is "<<1-variance(Yb_bar)/variance(Y_bar)<<std::endl;
+    }
+}
 
+void exec(varianceReduction &VR, int m, std::vector<double> &Y_bar, std::vector<double> &Yb_bar) {
+//#pragma omp parallel for
+    for(int j = 0; j < m; j++) {
+        VR.init();
+        VR.exec();
+        Yb_bar[j] = average(VR.get_sol());
+        Y_bar[j] = average(VR.get_payoff());
     }
 }

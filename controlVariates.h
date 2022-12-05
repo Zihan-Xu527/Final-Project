@@ -28,8 +28,7 @@ private:
     std::vector<double> sol; // Y(b)
 public:
     controlVariates();
-    controlVariates(double r, double volatility, double s_init, double maturity, double strike);
-    controlVariates(double r, double volatility, double s_init, double maturity, double strike, int newN);
+    controlVariates(double r, double volatility, double s_init, double maturity, double strike, int batch_size=1000);
     void simulate();
     void set_data();
     void set_b();
@@ -39,6 +38,7 @@ public:
     void set_init(double newS0){ S_init = newS0; };
     void set_maturity(double newT){ T = newT; };
     void set_strike(double newK) { K = newK; };
+    std::vector<double> get_spot() { return spot_maturity;};
     std::vector<double> get_payoff() { return discounted_payoff;};
     std::vector<double> get_sol(){ return sol;};
     void init();

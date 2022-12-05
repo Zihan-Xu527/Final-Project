@@ -16,11 +16,6 @@ controlVariates::controlVariates(){
 
 }
 
-controlVariates::controlVariates(double r, double volatility, double s_init, double maturity, double strike){
-
-
-
-}
 
 controlVariates::controlVariates(double r, double volatility, double s_init, double maturity, double strike, int batch_size){
     interest_rate = r;

@@ -6,10 +6,10 @@
 #include <math.h>
 #include <cmath>
 #include "omp.h"
-#include "statistic_tool.h"
-#include "BSMModel.h"
-#include "Payoff.h"
-#include "controlVariates.h"
+#include "src/statistic_tool.h"
+#include "src/BSMModel.h"
+#include "src/Payoff.h"
+#include "src/controlVariates.h"
 
 void check_asymptotic_result(double r, double sigma, double S_0, double T, double K){
 

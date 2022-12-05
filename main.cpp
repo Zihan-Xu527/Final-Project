@@ -3,11 +3,11 @@
 #include <math.h>
 #include <cmath>
 #include "omp.h"
-#include "statistic_tool.h"
-#include "BSMModel.h"
-#include "Payoff.h"
+#include "src/statistic_tool.h"
+#include "src/BSMModel.h"
+#include "src/Payoff.h"
 #include <chrono>
-#include "controlVariates.h"
+#include "src/controlVariates.h"
 #include <fstream>
 
 void writeResultToFile(std::vector<double> & vec1, std::vector<double> & vec2, std::vector<double> & vec3)
@@ -73,22 +73,22 @@ int main() {
 //
 //    }
 //
-//    // figure of linear regression
-//    std::vector<int> nn = {10, 50, 100, 1000};
-//    for (int i=0; i<nn.size(); i++){
-////        std::cout << "n = " << nn[i] <<", ";
-//        controlVariates cv(r, sigma, S_0, T, K, nn[i]);
-//        cv.init();
-//        cv.exec();
-//        std::vector<double> sol = cv.get_sol();
-//        std::vector<double> spot_maturity = cv.get_spot();
-//        std::vector<double> discounted_payoff = cv.get_payoff();
-//        double Yb_bar = average(sol);
-//        double Y_bar = average(discounted_payoff);
-//        double X_bar = average(spot_maturity);
-//        writeResultToFile(spot_maturity, discounted_payoff, sol);
-////        std::cout << " mean[Yb] = "<< Yb_bar << ", mean[Y] = "<<Y_bar<< ", mean[X] = "<< X_bar<< ", E[X] = "<< S_T<<std::endl;
-//    }
+    // figure of linear regression
+    std::vector<int> nn = {10, 50, 100, 1000};
+    for (int i=0; i<nn.size(); i++){
+//        std::cout << "n = " << nn[i] <<", ";
+        controlVariates cv(r, sigma, S_0, T, K, nn[i]);
+        cv.init();
+        cv.exec();
+        std::vector<double> sol = cv.get_sol();
+        std::vector<double> spot_maturity = cv.get_spot();
+        std::vector<double> discounted_payoff = cv.get_payoff();
+        double Yb_bar = average(sol);
+        double Y_bar = average(discounted_payoff);
+        double X_bar = average(spot_maturity);
+        writeResultToFile(spot_maturity, discounted_payoff, sol);
+//        std::cout << " mean[Yb] = "<< Yb_bar << ", mean[Y] = "<<Y_bar<< ", mean[X] = "<< X_bar<< ", E[X] = "<< S_T<<std::endl;
+    }
 
     return 0;
 }

@@ -17,7 +17,22 @@ void writeResultToFile(std::vector<double> & vec1, std::vector<double> & vec2, s
     std::string fileName = "../output/sample_size";
     fileName.append("_").append(std::to_string(n)).append(".csv");
     output.open(fileName);
-    for (int i = 0; i < n; i++)//save stock price and hedge payoff into a csv file
+    for (int i = 0; i < n; i++)
+    {
+        output << vec1[i] << "," << vec2[i] << "," << vec3[i] << "\n";
+    }
+    output.close();
+
+}
+
+void writeResultToFile(std::vector<double> & vec1, std::vector<double> & vec2, std::vector<double> & vec3, double strike)
+{
+    std::ofstream output;
+    int n = vec1.size();
+    std::string fileName = "../output/strike";
+    fileName.append("_").append(std::to_string(int(strike))).append(".csv");
+    output.open(fileName);
+    for (int i = 0; i < n; i++)
     {
         output << vec1[i] << "," << vec2[i] << "," << vec3[i] << "\n";
     }
@@ -100,11 +115,11 @@ int main() {
 
     auto startTime = std::chrono::high_resolution_clock::now();
 
-    check_reduction(r, sigma, S_0, T, K);
+//    check_reduction(r, sigma, S_0, T, K);
 
     auto middleTime = std::chrono::high_resolution_clock::now();
 
-    check_asymptotic_result(r, sigma, S_0, T, K);
+//    check_asymptotic_result(r, sigma, S_0, T, K);
 
     auto endTime = std::chrono::high_resolution_clock::now();
 
@@ -141,19 +156,31 @@ int main() {
 //
     // figure of linear regression
     std::vector<int> nn = {10, 50, 100, 1000};
+    std::vector<double> strikes = {40., 45., 55., 70.};
+    int sampleSize = 50;
+    for (int i=0; i<strikes.size(); i++){
+
+        controlVariates cv(r, sigma, S_0, T, strikes[i], sampleSize);
+        cv.init();
+        cv.exec();
+        std::vector<double> sol = cv.get_sol();
+        std::vector<double> spot_maturity = cv.get_spot();
+        std::vector<double> discounted_payoff = cv.get_payoff();
+
+        writeResultToFile(spot_maturity, discounted_payoff, sol, strikes[i]);
+
+    }
     for (int i=0; i<nn.size(); i++){
-//        std::cout << "n = " << nn[i] <<", ";
+
         controlVariates cv(r, sigma, S_0, T, K, nn[i]);
         cv.init();
         cv.exec();
         std::vector<double> sol = cv.get_sol();
         std::vector<double> spot_maturity = cv.get_spot();
         std::vector<double> discounted_payoff = cv.get_payoff();
-        double Yb_bar = average(sol);
-        double Y_bar = average(discounted_payoff);
-        double X_bar = average(spot_maturity);
+
         writeResultToFile(spot_maturity, discounted_payoff, sol);
-//        std::cout << " mean[Yb] = "<< Yb_bar << ", mean[Y] = "<<Y_bar<< ", mean[X] = "<< X_bar<< ", E[X] = "<< S_T<<std::endl;
+
     }
 
     return 0;

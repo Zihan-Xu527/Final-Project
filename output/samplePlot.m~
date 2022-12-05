@@ -27,8 +27,7 @@ x = data(:,1);
 y = data(:,2);
 yb = data(:,3);
 linear_regression(x, y, yb)
-figure()
-hist(x)
+figure(
 
 data = csvread('strike_40.csv');
 x = data(:,1);
@@ -53,3 +52,4 @@ x = data(:,1);
 y = data(:,2);
 yb = data(:,3);
 linear_regression(x,y, yb);
+hist(x)

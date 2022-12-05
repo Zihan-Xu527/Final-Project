@@ -118,4 +118,4 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 .idea/
-./output/*.csv
+output/*.csv

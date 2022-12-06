@@ -17,7 +17,7 @@ elseif (CMAKE_SYSTEM_NAME MATCHES "Darwin")
 endif ()
 
 add_executable(Final_Project
-        main.cpp src/statistic_tool.cpp src/statistic_tool.h src/Payoff.h src/BSMModel.cpp src/BSMModel.h src/controlVariates.cpp src/controlVariates.h)
+        main.cpp src/statistic_tool.cpp src/statistic_tool.h src/Payoff.h src/BSMModel.cpp src/BSMModel.h src/controlVariates.cpp src/controlVariates.h src/analysis.cpp)
 
 target_link_libraries(Final_Project LINK_PUBLIC ${OPENMP_LIB}
 

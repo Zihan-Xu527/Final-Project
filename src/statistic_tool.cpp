@@ -2,6 +2,11 @@
 // Created by Zihan Xu on 11/28/22.
 //
 
+#include <fstream>
+#include <chrono>
+#include "controlVariates.h"
+#include "Payoff.h"
+#include "BSMModel.h"
 #include "statistic_tool.h"
 #include <vector>
 #include <cmath>
@@ -10,17 +15,10 @@
 #include <iostream>
 #include "math.h"
 
+
+
 double average(std::vector<double> const & vec){
     return std::accumulate(vec.begin(), vec.end(), 0.0)/(vec.size());
-//    int n = vec.size();
-//    double sum = 0.;
-//#pragma omp parallel for
-//    for (int i = 0; i < n; i++){
-//        sum += vec[i];
-//    }
-//
-//    return sum/n;
-
 }
 
 double variance(std::vector<double> const & vec){
@@ -75,4 +73,34 @@ double expected_Payoff(double t, double spot_price, double interest_rate, double
     double d1 = (std::log(spot_price / strike) + (interest_rate + pow(volatility, 2) / 2) * (maturity - t)) / (volatility * std::sqrt(maturity - t));
     double d2 = d1 - volatility * std::sqrt(maturity - t);
     return normalCDF(d1) * spot_price  - normalCDF(d2) * strike / std::exp(interest_rate * maturity);
+}
+
+void writeResultToFile(std::vector<double> & vec1, std::vector<double> & vec2, std::vector<double> & vec3)
+{
+    std::ofstream output;
+    int n = vec1.size();
+    std::string fileName = "../output/sample_size";
+    fileName.append("_").append(std::to_string(n)).append(".csv");
+    output.open(fileName);
+    for (int i = 0; i < n; i++)
+    {
+        output << vec1[i] << "," << vec2[i] << "," << vec3[i] << "\n";
+    }
+    output.close();
+
+}
+
+void writeResultToFile(std::vector<double> & vec1, std::vector<double> & vec2, std::vector<double> & vec3, double strike)
+{
+    std::ofstream output;
+    int n = vec1.size();
+    std::string fileName = "../output/strike";
+    fileName.append("_").append(std::to_string(int(strike))).append(".csv");
+    output.open(fileName);
+    for (int i = 0; i < n; i++)
+    {
+        output << vec1[i] << "," << vec2[i] << "," << vec3[i] << "\n";
+    }
+    output.close();
+
 }

@@ -1,8 +1,12 @@
 clc; clear all; close all;
 expected_X = 50.6289;
+
+%%% Figure 2: need to modify strike price in main.cpp
+
 % expected_Y = 10.6624; %strike = 40
 expected_Y = 1.4222;  % strike = 55
 % expected_Y = 0.0481762; % strike = 70
+
 data = csvread('sample_size_10000.csv');
 x = data(:,1);
 y = data(:,2);

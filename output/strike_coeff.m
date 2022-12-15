@@ -1,29 +1,21 @@
 
 clc; clear all; close all;
 
+% Figure 1.1: strike = 40, n = 50
 data = csvread('strike_40.csv');
 x = data(:,1);
 y = data(:,2);
-yb = data(:,3);
-linear_regression(x,y, yb);
+linear_regression(x,y);
 
-
-data = csvread('strike_50.csv');
+% Figure 1.2: strike = 55, n = 50
+data = csvread('strike_55.csv');
 x = data(:,1);
 y = data(:,2);
-yb = data(:,3);
-linear_regression(x,y, yb);
+linear_regression(x, y);
 
 
-data = csvread('strike_60.csv');
-x = data(:,1);
-y = data(:,2);
-yb = data(:,3);
-linear_regression(x,y,yb);
-
-
+% Figure 1.3: strike = 70, n = 50
 data = csvread('strike_70.csv');
 x = data(:,1);
 y = data(:,2);
-yb = data(:,3);
-linear_regression(x,y,yb);
+linear_regression(x,y);

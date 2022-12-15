@@ -13,7 +13,6 @@
 void check_reduction(double r, double sigma, double S_0, double T, double K){
 
     std::vector<int> nn = {10, 100, 1000, 10000};
-//    omp_set_num_threads(8);
     int m = 10000;
     std::vector<double> Y_mean(m);
     std::vector<double> Yb_mean(m);
@@ -44,11 +43,9 @@ void check_reduction(double r, double sigma, double S_0, double T, double K){
     writeResultToFile(X_mean, Y_mean, Yb_mean);
 }
 
-void check_asymptotic_result(double r, double sigma, double S_0, double T, double K){
+void check_asymptotic_result(double r, double sigma, double S_0, double T, double K, double EY){
 
     std::vector<int> nn = {10, 100, 1000, 10000};
-    double EY = expected_Payoff(0, S_0, r, sigma, K, T);
-    std::cout<<"E[Y] = "<< EY << std::endl;
     int m = 10000;
 
 
@@ -81,21 +78,21 @@ void check_asymptotic_result(double r, double sigma, double S_0, double T, doubl
 }
 int main() {
 
-//    void check_asymptotic_result(double r, double sigma, double S_0, double T, double K);
     double r = 0.05, sigma = 0.3;
-    double S_0 = 50.0, T = 0.25, K = 55.;
+    double S_0 = 50.0, T = 0.25, K = 55.; // modify K to 40 or 70 for figure 2, correspond to prob_distribution.m
+
     double S_T = S_0 * std::exp( r * T );
     std::cout << "E[S(T)] = "<< S_T ;
-
-    auto startTime = std::chrono::high_resolution_clock::now();
     double EY = expected_Payoff(0, S_0, r, sigma, K, T);
     std::cout <<", E[Y] = "<< EY << std::endl;
 
-    check_reduction(r, sigma, S_0, T, K)
+    auto startTime = std::chrono::high_resolution_clock::now();
+
+    check_reduction(r, sigma, S_0, T, K);
 
     auto middleTime = std::chrono::high_resolution_clock::now();
 
-    check_asymptotic_result(r, sigma, S_0, T, K);
+    check_asymptotic_result(r, sigma, S_0, T, K, EY);
 
     auto endTime = std::chrono::high_resolution_clock::now();
 

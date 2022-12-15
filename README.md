@@ -1,5 +1,5 @@
-- [Final Project](#final-project)
-  * [Table of contents](#table-of-contents)
+# Final Project
+  * [Project structure](#project-structure)
     + [main.cpp](#maincpp)
     + [src](#src)
       - [analysis.cpp](#analysiscpp)

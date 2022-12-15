@@ -53,7 +53,7 @@ void analysis(){
         writeResultToFile(spot_maturity, discounted_payoff, sol, strike[i]);
 
     }
-    
+
     // figure 3: K = 55, n = 10
     controlVariates cv(r, sigma, S_0, T, 55., 10);
     cv.init();
